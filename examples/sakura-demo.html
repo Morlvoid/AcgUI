@@ -1,0 +1,293 @@
+html
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACGUI - 樱花飘落组件演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-area {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .controls {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff6b9d;
+            cursor: pointer;
+        }
+        
+        input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #ff6b9d, #ff8e53);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .current-settings {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .mode-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: #ff6b9d;
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 全屏樱花效果 -->
+    <acg-sakura-petals id="sakuraFullscreen" count="40" speed="2" color="#ff9ebb" area="fullscreen" z-index="0"></acg-sakura-petals>
+
+    <!-- 背景层樱花效果 -->
+    <acg-sakura-petals id="sakuraBackground" count="25" speed="1.5" color="#a78bfa" area="background" theme="light" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;"></acg-sakura-petals>
+
+    <div class="demo-container">
+        <header>
+            <h1>🌸 ACGUI - 樱花飘落组件</h1>
+            <p class="subtitle">为二次元网站设计的动态樱花效果 | 完全可自定义参数</p>
+        </header>
+
+        <div class="content">
+            <div class="demo-area" id="demoArea">
+                <h2>演示区域</h2>
+                <p>在这里可以看到樱花效果的实际表现。</p>
+
+                <div class="mode-buttons">
+                    <div class="mode-btn active" data-mode="fullscreen">全屏模式</div>
+                    <div class="mode-btn" data-mode="background">背景模式</div>
+                    <div class="mode-btn" data-mode="element">元素内模式</div>
+                </div>
+
+                <!-- 元素内樱花效果 -->
+                <acg-sakura-petals id="sakuraElement" count="20" speed="1.8" color="#fbb6ce" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></acg-sakura-petals>
+            </div>
+
+            <div class="controls">
+                <h2>控制面板</h2>
+                <p>实时调整樱花效果参数</p>
+
+                <div class="control-group">
+                    <label>花瓣数量: <span id="countValue">40</span></label>
+                    <input type="range" id="countControl" min="5" max="100" value="40" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label>飘落速度: <span id="speedValue">2.0</span></label>
+                    <input type="range" id="speedControl" min="0.1" max="5" value="2.0" step="0.1">
+                </div>
+
+                <div class="control-group">
+                    <label>花瓣颜色:</label>
+                    <input type="color" id="colorControl" value="#ff9ebb">
+                </div>
+
+                <div class="control-group">
+                    <label>透明度: <span id="opacityValue">70%</span></label>
+                    <input type="range" id="opacityControl" min="10" max="100" value="70" step="1">
+                </div>
+
+                <div class="btn-group">
+                    <button id="startBtn">▶ 开始动画</button>
+                    <button id="pauseBtn" class="btn-secondary">⏸ 暂停动画</button>
+                    <button id="resetBtn" class="btn-secondary">🔄 重置花瓣</button>
+                    <button id="randomBtn">🎲 随机效果</button>
+                </div>
+
+                <div class="current-settings">
+                    <strong>当前设置:</strong>
+                    <pre id="currentSettings"></pre>
+                </div>
+
+                <div class="code-block">
+                    <strong>当前代码:</strong>
+                    <pre id="codeExample"></pre>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>ACGUI - 为二次元风格网站设计的组件库 | 开源项目 | 欢迎贡献</p>
+            <p>GitHub: github.com/yourname/acgui</p>
+        </footer>
+    </div>
+
+    <script type="module">
+        // 导入组件（假设已正确配置模块） import ACSakuraPetals from '../src/components/sakura-petals/sakura-petals.js'; // 获取组件实例 const sakuraFullscreen = document.getElementById('sakuraFullscreen'); const sakuraBackground = document.getElementById('sakuraBackground'); const
+        sakuraElement = document.getElementById('sakuraElement'); // 当前活动组件 let activeSakura = sakuraFullscreen; // 更新设置显示 function updateSettingsDisplay() { const settings = { count: activeSakura.getAttribute('count') || 40, speed: activeSakura.getAttribute('speed')
+        || 2, color: activeSakura.getAttribute('color') || '#ff9ebb', area: activeSakura.getAttribute('area') || 'fullscreen', zIndex: activeSakura.getAttribute('z-index') || 0 }; document.getElementById('currentSettings').textContent = JSON.stringify(settings,
+        null, 2); document.getElementById('codeExample').textContent = `
+        <acg-sakura-petals count="${settings.count}" speed="${settings.speed}" color="${settings.color}" area="${settings.area}" z-index="${settings.zIndex}"></acg-sakura-petals>`; } // 控制面板事件 document.getElementById('countControl').addEventListener('input', function(e) { const value = e.target.value; document.getElementById('countValue').textContent = value; activeSakura.setAttribute('count', value);
+        activeSakura.updateOptions({ count: parseInt(value) }); updateSettingsDisplay(); }); document.getElementById('speedControl').addEventListener('input', function(e) { const value = parseFloat(e.target.value).toFixed(1); document.getElementById('speedValue').textContent
+        = value; activeSakura.setAttribute('speed', value); activeSakura.setSpeed(parseFloat(value)); updateSettingsDisplay(); }); document.getElementById('colorControl').addEventListener('input', function(e) { const value = e.target.value; activeSakura.setAttribute('color',
+        value); activeSakura.setColor(value); updateSettingsDisplay(); }); document.getElementById('opacityControl').addEventListener('input', function(e) { const value = e.target.value; document.getElementById('opacityValue').textContent = `${value}%`;
+        activeSakura.updateOptions({ opacity: value / 100 }); }); // 按钮事件 document.getElementById('startBtn').addEventListener('click', () => { activeSakura.start(); }); document.getElementById('pauseBtn').addEventListener('click', () => { activeSakura.pause();
+        }); document.getElementById('resetBtn').addEventListener('click', () => { activeSakura.updateOptions({ count: parseInt(activeSakura.getAttribute('count')) || 40 }); }); document.getElementById('randomBtn').addEventListener('click', () => { const
+        randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); const randomCount = Math.floor(Math.random() * 60) + 20; const randomSpeed = (Math.random() * 4 + 0.5).toFixed(1); document.getElementById('countControl').value = randomCount;
+        document.getElementById('speedControl').value = randomSpeed; document.getElementById('colorControl').value = randomColor; document.getElementById('countValue').textContent = randomCount; document.getElementById('speedValue').textContent = randomSpeed;
+        activeSakura.updateOptions({ count: randomCount, speed: parseFloat(randomSpeed), color: randomColor }); updateSettingsDisplay(); }); // 模式切换 document.querySelectorAll('.mode-btn').forEach(btn => { btn.addEventListener('click', function() { //
+        更新按钮状态 document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); const mode = this.dataset.mode; // 隐藏所有组件 sakuraFullscreen.style.display = 'none'; sakuraBackground.style.display = 'none';
+        sakuraElement.style.display = 'none'; // 显示对应模式的组件 switch(mode) { case 'fullscreen': sakuraFullscreen.style.display = 'block'; activeSakura = sakuraFullscreen; activeSakura.setArea('fullscreen'); break; case 'background': sakuraBackground.style.display
+        = 'block'; activeSakura = sakuraBackground; activeSakura.setArea('background'); break; case 'element': sakuraElement.style.display = 'block'; activeSakura = sakuraElement; activeSakura.setArea('fullscreen'); break; } updateSettingsDisplay(); });
+        }); // 初始化 updateSettingsDisplay(); // 控制台输出，方便调试 console.log('ACGUI 樱花组件已加载'); console.log('组件实例:', activeSakura); console.log('可用方法:', Object.getOwnPropertyNames(Object.getPrototypeOf(activeSakura)).filter(name => !name.startsWith('_')));
+    </script>
+</body>
+
+</html>

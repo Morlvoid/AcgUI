@@ -1,0 +1,45 @@
+{
+    "name": "acgui",
+    "version": "0.1.0-alpha",
+    "description": "为二次元风格网站设计的轻量级UI组件库",
+    "main": "dist/acgui.js",
+    "module": "dist/acgui.esm.js",
+    "unpkg": "dist/acgui.min.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs",
+        "docs:serve": "vitepress serve docs"
+    },
+    "keywords": [
+        "acgui",
+        "anime",
+        "ui-library",
+        "web-components",
+        "二次元",
+        "anime-ui",
+        "css-effects"
+    ],
+    "author": "Your Name",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/yourname/acgui.git"
+    },
+    "bugs": {
+        "url": "https://github.com/yourname/acgui/issues"
+    },
+    "homepage": "https://acgui.dev",
+    "devDependencies": {
+        "vite": "^4.0.0",
+        "vitepress": "^1.0.0"
+    },
+    "files": [
+        "dist",
+        "src/components",
+        "README.md",
+        "LICENSE"
+    ]
+}

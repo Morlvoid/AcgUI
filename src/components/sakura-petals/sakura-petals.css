@@ -1,0 +1,47 @@
+/* ACGUI 樱花飘落组件 - 基础样式 */
+
+acg-sakura-petals {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.acg-sakura-petal {
+    position: absolute;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+    animation: sakura-float 3s ease-in-out infinite alternate;
+}
+
+.acg-sakura-petal:hover {
+    opacity: 0.9 !important;
+    transform: scale(1.1);
+}
+
+.acg-sakura-petal svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+@keyframes sakura-float {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(5deg);
+    }
+}
+
+
+/* 主题变体 */
+
+acg-sakura-petals[theme="dark"] .acg-sakura-petal {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+acg-sakura-petals[theme="light"] .acg-sakura-petal {
+    filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.3));
+}
