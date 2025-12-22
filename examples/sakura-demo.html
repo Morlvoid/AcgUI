@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="zh-CN">
 
@@ -269,24 +268,189 @@ html
         </footer>
     </div>
 
-    <script type="module">
-        // 导入组件（假设已正确配置模块） import ACSakuraPetals from '../src/components/sakura-petals/sakura-petals.js'; // 获取组件实例 const sakuraFullscreen = document.getElementById('sakuraFullscreen'); const sakuraBackground = document.getElementById('sakuraBackground'); const
-        sakuraElement = document.getElementById('sakuraElement'); // 当前活动组件 let activeSakura = sakuraFullscreen; // 更新设置显示 function updateSettingsDisplay() { const settings = { count: activeSakura.getAttribute('count') || 40, speed: activeSakura.getAttribute('speed')
-        || 2, color: activeSakura.getAttribute('color') || '#ff9ebb', area: activeSakura.getAttribute('area') || 'fullscreen', zIndex: activeSakura.getAttribute('z-index') || 0 }; document.getElementById('currentSettings').textContent = JSON.stringify(settings,
-        null, 2); document.getElementById('codeExample').textContent = `
-        <acg-sakura-petals count="${settings.count}" speed="${settings.speed}" color="${settings.color}" area="${settings.area}" z-index="${settings.zIndex}"></acg-sakura-petals>`; } // 控制面板事件 document.getElementById('countControl').addEventListener('input', function(e) { const value = e.target.value; document.getElementById('countValue').textContent = value; activeSakura.setAttribute('count', value);
-        activeSakura.updateOptions({ count: parseInt(value) }); updateSettingsDisplay(); }); document.getElementById('speedControl').addEventListener('input', function(e) { const value = parseFloat(e.target.value).toFixed(1); document.getElementById('speedValue').textContent
-        = value; activeSakura.setAttribute('speed', value); activeSakura.setSpeed(parseFloat(value)); updateSettingsDisplay(); }); document.getElementById('colorControl').addEventListener('input', function(e) { const value = e.target.value; activeSakura.setAttribute('color',
-        value); activeSakura.setColor(value); updateSettingsDisplay(); }); document.getElementById('opacityControl').addEventListener('input', function(e) { const value = e.target.value; document.getElementById('opacityValue').textContent = `${value}%`;
-        activeSakura.updateOptions({ opacity: value / 100 }); }); // 按钮事件 document.getElementById('startBtn').addEventListener('click', () => { activeSakura.start(); }); document.getElementById('pauseBtn').addEventListener('click', () => { activeSakura.pause();
-        }); document.getElementById('resetBtn').addEventListener('click', () => { activeSakura.updateOptions({ count: parseInt(activeSakura.getAttribute('count')) || 40 }); }); document.getElementById('randomBtn').addEventListener('click', () => { const
-        randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); const randomCount = Math.floor(Math.random() * 60) + 20; const randomSpeed = (Math.random() * 4 + 0.5).toFixed(1); document.getElementById('countControl').value = randomCount;
-        document.getElementById('speedControl').value = randomSpeed; document.getElementById('colorControl').value = randomColor; document.getElementById('countValue').textContent = randomCount; document.getElementById('speedValue').textContent = randomSpeed;
-        activeSakura.updateOptions({ count: randomCount, speed: parseFloat(randomSpeed), color: randomColor }); updateSettingsDisplay(); }); // 模式切换 document.querySelectorAll('.mode-btn').forEach(btn => { btn.addEventListener('click', function() { //
-        更新按钮状态 document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); this.classList.add('active'); const mode = this.dataset.mode; // 隐藏所有组件 sakuraFullscreen.style.display = 'none'; sakuraBackground.style.display = 'none';
-        sakuraElement.style.display = 'none'; // 显示对应模式的组件 switch(mode) { case 'fullscreen': sakuraFullscreen.style.display = 'block'; activeSakura = sakuraFullscreen; activeSakura.setArea('fullscreen'); break; case 'background': sakuraBackground.style.display
-        = 'block'; activeSakura = sakuraBackground; activeSakura.setArea('background'); break; case 'element': sakuraElement.style.display = 'block'; activeSakura = sakuraElement; activeSakura.setArea('fullscreen'); break; } updateSettingsDisplay(); });
-        }); // 初始化 updateSettingsDisplay(); // 控制台输出，方便调试 console.log('ACGUI 樱花组件已加载'); console.log('组件实例:', activeSakura); console.log('可用方法:', Object.getOwnPropertyNames(Object.getPrototypeOf(activeSakura)).filter(name => !name.startsWith('_')));
+    <!-- 首先导入樱花组件 -->
+    <script type="module" src="./src/components/sakura-petals/sakura-petals.js"></script>
+
+    <!-- 然后是控制脚本 -->
+    <script>
+        // 获取组件实例
+        const sakuraFullscreen = document.getElementById('sakuraFullscreen');
+        const sakuraBackground = document.getElementById('sakuraBackground');
+        const sakuraElement = document.getElementById('sakuraElement');
+
+        // 当前活动组件
+        let activeSakura = sakuraFullscreen;
+
+        // 更新设置显示
+        function updateSettingsDisplay() {
+            const settings = {
+                count: activeSakura.getAttribute('count') || 40,
+                speed: activeSakura.getAttribute('speed') || 2,
+                color: activeSakura.getAttribute('color') || '#ff9ebb',
+                area: activeSakura.getAttribute('area') || 'fullscreen',
+                zIndex: activeSakura.getAttribute('z-index') || 0
+            };
+
+            document.getElementById('currentSettings').textContent =
+                JSON.stringify(settings, null, 2);
+
+            document.getElementById('codeExample').textContent =
+                `<acg-sakura-petals
+    count="${settings.count}"
+    speed="${settings.speed}"
+    color="${settings.color}"
+    area="${settings.area}"
+    z-index="${settings.zIndex}"
+></acg-sakura-petals>`;
+        }
+
+        // 控制面板事件
+        document.getElementById('countControl').addEventListener('input', function(e) {
+            const value = e.target.value;
+            document.getElementById('countValue').textContent = value;
+            activeSakura.setAttribute('count', value);
+            if (activeSakura.updateOptions) {
+                activeSakura.updateOptions({
+                    count: parseInt(value)
+                });
+            }
+            updateSettingsDisplay();
+        });
+
+        document.getElementById('speedControl').addEventListener('input', function(e) {
+            const value = parseFloat(e.target.value).toFixed(1);
+            document.getElementById('speedValue').textContent = value;
+            activeSakura.setAttribute('speed', value);
+            if (activeSakura.setSpeed) {
+                activeSakura.setSpeed(parseFloat(value));
+            }
+            updateSettingsDisplay();
+        });
+
+        document.getElementById('colorControl').addEventListener('input', function(e) {
+            const value = e.target.value;
+            activeSakura.setAttribute('color', value);
+            if (activeSakura.setColor) {
+                activeSakura.setColor(value);
+            }
+            updateSettingsDisplay();
+        });
+
+        document.getElementById('opacityControl').addEventListener('input', function(e) {
+            const value = e.target.value;
+            document.getElementById('opacityValue').textContent = `${value}%`;
+            if (activeSakura.updateOptions) {
+                activeSakura.updateOptions({
+                    opacity: value / 100
+                });
+            }
+        });
+
+        // 按钮事件
+        document.getElementById('startBtn').addEventListener('click', () => {
+            if (activeSakura.start) {
+                activeSakura.start();
+            }
+        });
+
+        document.getElementById('pauseBtn').addEventListener('click', () => {
+            if (activeSakura.pause) {
+                activeSakura.pause();
+            }
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            if (activeSakura.updateOptions) {
+                activeSakura.updateOptions({
+                    count: parseInt(activeSakura.getAttribute('count')) || 40
+                });
+            }
+        });
+
+        document.getElementById('randomBtn').addEventListener('click', () => {
+            const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            const randomCount = Math.floor(Math.random() * 60) + 20;
+            const randomSpeed = (Math.random() * 4 + 0.5).toFixed(1);
+
+            document.getElementById('countControl').value = randomCount;
+            document.getElementById('speedControl').value = randomSpeed;
+            document.getElementById('colorControl').value = randomColor;
+
+            document.getElementById('countValue').textContent = randomCount;
+            document.getElementById('speedValue').textContent = randomSpeed;
+
+            if (activeSakura.updateOptions) {
+                activeSakura.updateOptions({
+                    count: randomCount,
+                    speed: parseFloat(randomSpeed),
+                    color: randomColor
+                });
+            }
+
+            updateSettingsDisplay();
+        });
+
+        // 模式切换
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 更新按钮状态
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const mode = this.dataset.mode;
+
+                // 隐藏所有组件
+                sakuraFullscreen.style.display = 'none';
+                sakuraBackground.style.display = 'none';
+                sakuraElement.style.display = 'none';
+
+                // 显示对应模式的组件
+                switch (mode) {
+                    case 'fullscreen':
+                        sakuraFullscreen.style.display = 'block';
+                        activeSakura = sakuraFullscreen;
+                        if (activeSakura.setArea) {
+                            activeSakura.setArea('fullscreen');
+                        }
+                        break;
+                    case 'background':
+                        sakuraBackground.style.display = 'block';
+                        activeSakura = sakuraBackground;
+                        if (activeSakura.setArea) {
+                            activeSakura.setArea('background');
+                        }
+                        break;
+                    case 'element':
+                        sakuraElement.style.display = 'block';
+                        activeSakura = sakuraElement;
+                        if (activeSakura.setArea) {
+                            activeSakura.setArea('fullscreen');
+                        }
+                        break;
+                }
+
+                updateSettingsDisplay();
+            });
+        });
+
+        // 初始化
+        updateSettingsDisplay();
+
+        // 控制台输出，方便调试
+        console.log('ACGUI 樱花组件已加载');
+        console.log('组件实例:', activeSakura);
+
+        // 检查组件方法是否可用
+        setTimeout(() => {
+            console.log('组件方法检查:', {
+                updateOptions: typeof activeSakura.updateOptions,
+                start: typeof activeSakura.start,
+                pause: typeof activeSakura.pause,
+                setColor: typeof activeSakura.setColor,
+                setSpeed: typeof activeSakura.setSpeed,
+                setArea: typeof activeSakura.setArea
+            });
+        }, 1000);
     </script>
 </body>
 
