@@ -1,45 +1,57 @@
 {
     "name": "acgui",
-    "version": "0.1.0-alpha",
-    "description": "为二次元风格网站设计的轻量级UI组件库",
-    "main": "dist/acgui.js",
-    "module": "dist/acgui.esm.js",
-    "unpkg": "dist/acgui.min.js",
+    "version": "2.0.0",
+    "description": "为二次元风格网站设计的轻量级UI组件库 - 包含樱花飘落、气泡上升、边框动画、星星动画、背景图片、呼吸效果等动画组件",
+    "main": "dist/index.js",
+    "module": "src/index.js",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "docs:dev": "vitepress dev docs",
-        "docs:build": "vitepress build docs",
-        "docs:serve": "vitepress serve docs"
+        "dev": "webpack serve --mode development --open",
+        "build": "webpack --mode production",
+        "start": "webpack serve --mode development --open"
     },
     "keywords": [
         "acgui",
         "anime",
         "ui-library",
         "web-components",
+        "animation",
+        "sakura",
+        "bubble",
+        "border-animation",
+        "star-animation",
+        "breathing-effect",
         "二次元",
         "anime-ui",
         "css-effects"
     ],
-    "author": "Your Name",
+    "author": "AcgUI Team",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/yourname/acgui.git"
+        "url": "git@github.com:Morlvoid/AcgUI.git"
     },
     "bugs": {
-        "url": "https://github.com/yourname/acgui/issues"
+        "url": "https://github.com/Morlvoid/AcgUI/issues"
     },
-    "homepage": "https://acgui.dev",
+    "homepage": "https://github.com/Morlvoid/AcgUI",
     "devDependencies": {
-        "vite": "^4.0.0",
-        "vitepress": "^1.0.0"
+        "@babel/core": "^7.23.0",
+        "@babel/preset-env": "^7.23.0",
+        "babel-loader": "^9.1.0",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.0",
+        "webpack-dev-server": "^4.15.0"
     },
     "files": [
         "dist",
-        "src/components",
+        "src",
         "README.md",
         "LICENSE"
-    ]
+    ],
+    "exports": {
+        ".": {
+            "import": "./src/index.js",
+            "require": "./dist/index.js"
+        }
+    }
 }

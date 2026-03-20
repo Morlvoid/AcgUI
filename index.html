@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Components - 动画组件展示</title>
+    <style>
+        /* ========== 基础样式重置 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ========== 布局容器 ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* ========== 头部样式 - 简单线条风格 ========== */
+        header {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin-bottom: 12px;
+            color: #222;
+            letter-spacing: 3px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: #888;
+            font-weight: 300;
+        }
+
+        .version-badge {
+            display: inline-block;
+            border: 1px solid #ddd;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 20px;
+            font-weight: 400;
+        }
+
+        /* ========== 组件展示区 - 简洁卡片 ========== */
+        .component-section {
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 40px;
+            background: #fff;
+            transition: border-color 0.3s ease;
+        }
+
+        .component-section:hover {
+            border-color: #ccc;
+        }
+
+        .component-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .component-number {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-right: 15px;
+            font-weight: 500;
+        }
+
+        .component-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #333;
+        }
+
+        .component-desc {
+            font-size: 0.85rem;
+            color: #999;
+            margin-left: auto;
+        }
+
+        /* ========== 控制面板 - 简洁线条风格 ========== */
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .control-group label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 3px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            border-color: #999;
+        }
+
+        .control-group select,
+        .control-group input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            background: #fff;
+            color: #333;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .control-group select:focus,
+        .control-group input[type="text"]:focus {
+            border-color: #999;
+        }
+
+        .value-display {
+            color: #333;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        /* ========== 按钮组 ========== */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 8px 18px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            background: #fff;
+            color: #555;
+        }
+
+        button:hover {
+            border-color: #999;
+            color: #333;
+        }
+
+        button:active {
+            background: #f5f5f5;
+        }
+
+        button.primary {
+            border-color: #333;
+            color: #333;
+        }
+
+        button.primary:hover {
+            background: #333;
+            color: #fff;
+        }
+
+        /* ========== 预览区域 ========== */
+        .preview-area {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 4px;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 星星预览特殊样式 */
+        .star-preview-element {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: #ffd700;
+            line-height: 1;
+        }
+
+        /* 呼吸效果预览特殊样式 */
+        .breathing-preview-element {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: #333;
+            border-radius: 50%;
+        }
+
+        /* 背景图片预览特殊样式 */
+        .bg-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #bbb;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* ========== 代码示例区 ========== */
+        .code-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .code-section h4 {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .code-block {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 3px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #555;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        .code-block code {
+            color: #333;
+        }
+
+        /* ========== 页脚 ========== */
+        footer {
+            text-align: center;
+            padding: 50px 0 30px;
+            color: #aaa;
+            border-top: 1px solid #e8e8e8;
+            margin-top: 30px;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        /* ========== 响应式适配 ========== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .component-section {
+                padding: 20px;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-area {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header>
+            <h1>Animation Components</h1>
+            <p>轻量级动画组件库 - 白色主题简洁线条风格</p>
+            <span class="version-badge">v2.0.0</span>
+        </header>
+
+        <!-- 组件1：樱花飘落 -->
+        <section class="component-section">
+            <div class="component-header">
+                <div class="component-number">1</div>
+                <h2 class="component-title">樱花飘落 (Sakura)</h2>
+                <span class="component-desc">可配置速度和密度</span>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>密度: <span class="value-display" id="sakura-density-value">30</span></label>
+                    <input type="range" id="sakura-density" min="5" max="80" value="30">
+                </div>
+                <div class="control-group">
+                    <label>速度: <span class="value-display" id="sakura-speed-value">2</span></label>
+                    <input type="range" id="sakura-speed" min="0.5" max="5" step="0.5" value="2">
+                </div>
+                <div class="control-group">
+                    <label>颜色</label>
+                    <select id="sakura-color">
+                        <option value="#ffb7c5">粉色</option>
+                        <option value="#ff69b4">深粉</option>
+                        <option value="#ffc0cb">浅粉</option>
+                        <option value="#f8c8dc">玫瑰粉</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="sakura-toggle">暂停 / 继续</button>
+                <button id="sakura-destroy">销毁</button>
+                <button class="primary" id="sakura-recreate">重新创建</button>
+            </div>
+
+            <div class="preview-area" id="sakura-preview"></div>
+
+            <div class="code-section">
+                <h4>使用示例</h4>
+                <div class="code-block">
+<code>// JavaScript 方式
+const sakura = new Sakura({
+    container: document.getElementById('container'),
+    density: 30,    // 密度
+    speed: 2,       // 速度
+    color: '#ffb7c5'
+}).init();
+
+// 动态更新
+sakura.update({ density: 50, speed: 3 });</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- 组件2：气泡上升 -->
+        <section class="component-section">
+            <div class="component-header">
+                <div class="component-number">2</div>
+                <h2 class="component-title">气泡上升 (Bubble)</h2>
+                <span class="component-desc">可配置速度和密度</span>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>密度: <span class="value-display" id="bubble-density-value">15</span></label>
+                    <input type="range" id="bubble-density" min="5" max="40" value="15">
+                </div>
+                <div class="control-group">
+                    <label>速度: <span class="value-display" id="bubble-speed-value">1</span></label>
+                    <input type="range" id="bubble-speed" min="0.5" max="3" step="0.5" value="1">
+                </div>
+                <div class="control-group">
+                    <label>颜色</label>
+                    <select id="bubble-color">
+                        <option value="#aae6ff">浅蓝</option>
+                        <option value="#87ceeb">天蓝</option>
+                        <option value="#b0e0e6">粉蓝</option>
+                        <option value="#e0ffff">淡青</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="bubble-toggle">暂停 / 继续</button>
+                <button id="bubble-destroy">销毁</button>
+                <button class="primary" id="bubble-recreate">重新创建</button>
+            </div>
+
+            <div class="preview-area" id="bubble-preview"></div>
+
+            <div class="code-section">
+                <h4>使用示例</h4>
+                <div class="code-block">
+<code>// JavaScript 方式
+const bubble = new Bubble({
+    container: document.getElementById('container'),
+    density: 15,    // 密度
+    speed: 1,       // 速度
+    color: '#aae6ff'
+}).init();
+
+// 动态更新
+bubble.update({ density: 25, speed: 1.5 });</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- 组件3：边框动画 -->
+        <section class="component-section">
+            <div class="component-header">
+                <div class="component-number">3</div>
+                <h2 class="component-title">边框动画 (Border)</h2>
+                <span class="component-desc">可配置速度和线条样式</span>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>速度: <span class="value-display" id="border-speed-value">1</span></label>
+                    <input type="range" id="border-speed" min="0.2" max="3" step="0.2" value="1">
+                </div>
+                <div class="control-group">
+                    <label>线条宽度: <span class="value-display" id="border-width-value">2</span>px</label>
+                    <input type="range" id="border-width" min="1" max="5" value="2">
+                </div>
+                <div class="control-group">
+                    <label>颜色</label>
+                    <select id="border-color">
+                        <option value="#333333">深灰</option>
+                        <option value="#ff6b6b">红色</option>
+                        <option value="#4ecdc4">青色</option>
+                        <option value="#333">黑色</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="primary" id="border-restart">重新播放</button>
+                <button id="border-destroy">销毁</button>
+            </div>
+
+            <div class="preview-area" id="border-preview"></div>
+
+            <div class="code-section">
+                <h4>使用示例</h4>
+                <div class="code-block">
+<code>// JavaScript 方式
+const border = new Border({
+    container: document.getElementById('container'),
+    speed: 1,       // 速度
+    lineWidth: 2,   // 线条宽度
+    color: '#333'
+}).init();
+
+// 重新播放
+border.update({ speed: 1.5 });</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- 组件4：星星动画 -->
+        <section class="component-section">
+            <div class="component-header">
+                <div class="component-number">4</div>
+                <h2 class="component-title">星星动画 (Star)</h2>
+                <span class="component-desc">可配置颜色和位置</span>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>颜色</label>
+                    <select id="star-color">
+                        <option value="#ffd700">金色</option>
+                        <option value="#ff6b6b">红色</option>
+                        <option value="#4ecdc4">青色</option>
+                        <option value="#333333">黑色</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>位置 X: <span class="value-display" id="star-x-value">50</span>%</label>
+                    <input type="range" id="star-x" min="10" max="90" value="50">
+                </div>
+                <div class="control-group">
+                    <label>位置 Y: <span class="value-display" id="star-y-value">50</span>%</label>
+                    <input type="range" id="star-y" min="10" max="90" value="50">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="primary" id="star-update">更新位置</button>
+                <button id="star-destroy">销毁</button>
+            </div>
+
+            <div class="preview-area" id="star-preview">
+                <div class="star-preview-element" id="star-target">★</div>
+            </div>
+
+            <div class="code-section">
+                <h4>使用示例</h4>
+                <div class="code-block">
+<code>// JavaScript 方式
+const star = new Star({
+    container: document.getElementById('container'),
+    color: '#ffd700',
+    position: { x: 50, y: 50 }  // 位置百分比
+}).init();
+
+// 更新位置和颜色
+star.update({
+    color: '#ff6b6b',
+    position: { x: 30, y: 70 }
+});</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- 组件5：背景图片 -->
+        <section class="component-section">
+            <div class="component-header">
+                <div class="component-number">5</div>
+                <h2 class="component-title">背景图片 (Background)</h2>
+                <span class="component-desc">可配置图片和切换间隔</span>
+            </div>
+
+            <div class="controls">
+                <div class="control-group" style="grid-column: span 2;">
+                    <label>图片 URL</label>
+                    <input type="text" id="bg-url" placeholder="输入图片URL地址">
+                </div>
+                <div class="control-group">
+                    <label>切换间隔: <span class="value-display" id="bg-duration-value">5000</span>ms</label>
+                    <input type="range" id="bg-duration" min="1000" max="10000" step="500" value="5000">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="primary" id="bg-add">添加图片</button>
+                <button id="bg-clear">清空</button>
+                <button id="bg-destroy">销毁</button>
+            </div>
+
+            <div class="preview-area" id="bg-preview">
+                <div class="bg-placeholder">背景图片将显示在这里</div>
+            </div>
+
+            <div class="code-section">
+                <h4>使用示例</h4>
+                <div class="code-block">
+<code>// JavaScript 方式
+const bg = new Background({
+    container: document.getElementById('container'),
+    images: ['image1.jpg', 'image2.jpg'],
+    duration: 5000    // 切换间隔(ms)
+}).init();
+
+// 更新切换间隔
+bg.update({ duration: 3000 });</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- 组件6：呼吸效果 -->
+        <section class="component-section">
+            <div class="component-header">
+                <div class="component-number">6</div>
+                <h2 class="component-title">呼吸效果 (Breathing)</h2>
+                <span class="component-desc">可配置速度和方向</span>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label>速度: <span class="value-display" id="breathing-speed-value">1</span></label>
+                    <input type="range" id="breathing-speed" min="0.1" max="3" step="0.1" value="1">
+                </div>
+                <div class="control-group">
+                    <label>方向</label>
+                    <select id="breathing-direction">
+                        <option value="vertical">垂直</option>
+                        <option value="horizontal">水平</option>
+                        <option value="both">双向</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>缩放范围: <span class="value-display" id="breathing-scale-value">0.2</span></label>
+                    <input type="range" id="breathing-scale" min="0.05" max="0.5" step="0.05" value="0.2">
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button id="breathing-toggle">暂停 / 继续</button>
+                <button id="breathing-destroy">销毁</button>
+            </div>
+
+            <div class="preview-area" id="breathing-preview">
+                <div class="breathing-preview-element" id="breathing-target"></div>
+            </div>
+
+            <div class="code-section">
+                <h4>使用示例</h4>
+                <div class="code-block">
+<code>// JavaScript 方式
+const breathing = new Breathing({
+    element: document.getElementById('target'),
+    speed: 1,           // 速度
+    direction: 'vertical',  // 方向
+    scale: 0.2          // 缩放范围
+}).init();
+
+// 更新配置
+breathing.update({ speed: 1.5, direction: 'both' });</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- 页脚 -->
+        <footer>
+            <p>Animation Components v2.0.0 | MIT License</p>
+        </footer>
+    </div>
+
+    <!-- 引入组件库 -->
+    <script type="module">
+        // 导入组件
+        import Sakura from './src/components/Sakura/index.js';
+        import Bubble from './src/components/Bubble/index.js';
+        import Border from './src/components/Border/index.js';
+        import Star from './src/components/Star/index.js';
+        import Background from './src/components/Background/index.js';
+        import Breathing from './src/components/Breathing/index.js';
+
+        // 组件实例存储
+        const instances = {
+            sakura: null,
+            bubble: null,
+            border: null,
+            star: null,
+            background: null,
+            breathing: null
+        };
+
+        // 背景图片列表
+        const bgImages = [];
+
+        // ========== 初始化樱花组件 ==========
+        function initSakura() {
+            const container = document.getElementById('sakura-preview');
+            if (!container) return;
+
+            if (instances.sakura) {
+                instances.sakura.destroy();
+            }
+
+            const density = parseInt(document.getElementById('sakura-density').value);
+            const speed = parseFloat(document.getElementById('sakura-speed').value);
+            const color = document.getElementById('sakura-color').value;
+
+            instances.sakura = new Sakura({
+                container: container,
+                density: density,
+                speed: speed,
+                color: color
+            }).init();
+        }
+
+        // ========== 初始化气泡组件 ==========
+        function initBubble() {
+            const container = document.getElementById('bubble-preview');
+            if (!container) return;
+
+            if (instances.bubble) {
+                instances.bubble.destroy();
+            }
+
+            const density = parseInt(document.getElementById('bubble-density').value);
+            const speed = parseFloat(document.getElementById('bubble-speed').value);
+            const color = document.getElementById('bubble-color').value;
+
+            instances.bubble = new Bubble({
+                container: container,
+                density: density,
+                speed: speed,
+                color: color
+            }).init();
+        }
+
+        // ========== 初始化边框组件 ==========
+        function initBorder() {
+            const container = document.getElementById('border-preview');
+            if (!container) return;
+
+            if (instances.border) {
+                instances.border.destroy();
+            }
+
+            const speed = parseFloat(document.getElementById('border-speed').value);
+            const color = document.getElementById('border-color').value;
+            const lineWidth = parseInt(document.getElementById('border-width').value);
+
+            instances.border = new Border({
+                container: container,
+                speed: speed,
+                color: color,
+                lineWidth: lineWidth
+            }).init();
+        }
+
+        // ========== 初始化星星组件 ==========
+        function initStar() {
+            const container = document.getElementById('star-preview');
+            if (!container) return;
+
+            if (instances.star) {
+                instances.star.destroy();
+            }
+
+            const color = document.getElementById('star-color').value;
+            const x = parseInt(document.getElementById('star-x').value);
+            const y = parseInt(document.getElementById('star-y').value);
+
+            instances.star = new Star({
+                container: container,
+                color: color,
+                position: { x: x, y: y }
+            }).init();
+        }
+
+        // ========== 初始化背景组件 ==========
+        function initBackground() {
+            const container = document.getElementById('bg-preview');
+            if (!container) return;
+
+            if (instances.background) {
+                instances.background.destroy();
+            }
+
+            const duration = parseInt(document.getElementById('bg-duration').value);
+
+            if (bgImages.length > 0) {
+                instances.background = new Background({
+                    container: container,
+                    images: [...bgImages],
+                    duration: duration
+                }).init();
+
+                const placeholder = container.querySelector('.bg-placeholder');
+                if (placeholder) {
+                    placeholder.style.display = 'none';
+                }
+            }
+        }
+
+        // ========== 初始化呼吸效果 ==========
+        function initBreathing() {
+            const target = document.getElementById('breathing-target');
+            if (!target) return;
+
+            if (instances.breathing) {
+                instances.breathing.destroy();
+            }
+
+            const speed = parseFloat(document.getElementById('breathing-speed').value);
+            const direction = document.getElementById('breathing-direction').value;
+            const scale = parseFloat(document.getElementById('breathing-scale').value);
+
+            instances.breathing = new Breathing({
+                element: target,
+                speed: speed,
+                direction: direction,
+                scale: scale
+            }).init();
+        }
+
+        // ========== 设置事件监听器 ==========
+        function setupEventListeners() {
+            // 樱花组件控制
+            document.getElementById('sakura-density')?.addEventListener('input', (e) => {
+                document.getElementById('sakura-density-value').textContent = e.target.value;
+                if (instances.sakura) {
+                    instances.sakura.update({ density: parseInt(e.target.value) });
+                }
+            });
+
+            document.getElementById('sakura-speed')?.addEventListener('input', (e) => {
+                document.getElementById('sakura-speed-value').textContent = e.target.value;
+                if (instances.sakura) {
+                    instances.sakura.update({ speed: parseFloat(e.target.value) });
+                }
+            });
+
+            document.getElementById('sakura-color')?.addEventListener('change', (e) => {
+                if (instances.sakura) {
+                    instances.sakura.update({ color: e.target.value });
+                }
+            });
+
+            document.getElementById('sakura-toggle')?.addEventListener('click', () => {
+                if (instances.sakura) {
+                    const el = instances.sakura.element;
+                    if (el && el._isRunning) {
+                        el.pause();
+                    } else if (el) {
+                        el.resume();
+                    }
+                }
+            });
+
+            document.getElementById('sakura-destroy')?.addEventListener('click', () => {
+                if (instances.sakura) {
+                    instances.sakura.destroy();
+                    instances.sakura = null;
+                }
+            });
+
+            document.getElementById('sakura-recreate')?.addEventListener('click', () => {
+                initSakura();
+            });
+
+            // 气泡组件控制
+            document.getElementById('bubble-density')?.addEventListener('input', (e) => {
+                document.getElementById('bubble-density-value').textContent = e.target.value;
+                if (instances.bubble) {
+                    instances.bubble.update({ density: parseInt(e.target.value) });
+                }
+            });
+
+            document.getElementById('bubble-speed')?.addEventListener('input', (e) => {
+                document.getElementById('bubble-speed-value').textContent = e.target.value;
+                if (instances.bubble) {
+                    instances.bubble.update({ speed: parseFloat(e.target.value) });
+                }
+            });
+
+            document.getElementById('bubble-color')?.addEventListener('change', (e) => {
+                if (instances.bubble) {
+                    instances.bubble.update({ color: e.target.value });
+                }
+            });
+
+            document.getElementById('bubble-toggle')?.addEventListener('click', () => {
+                if (instances.bubble) {
+                    const el = instances.bubble.element;
+                    if (el && el._isRunning) {
+                        el.pause();
+                    } else if (el) {
+                        el.resume();
+                    }
+                }
+            });
+
+            document.getElementById('bubble-destroy')?.addEventListener('click', () => {
+                if (instances.bubble) {
+                    instances.bubble.destroy();
+                    instances.bubble = null;
+                }
+            });
+
+            document.getElementById('bubble-recreate')?.addEventListener('click', () => {
+                initBubble();
+            });
+
+            // 边框组件控制
+            document.getElementById('border-speed')?.addEventListener('input', (e) => {
+                document.getElementById('border-speed-value').textContent = e.target.value;
+            });
+
+            document.getElementById('border-width')?.addEventListener('input', (e) => {
+                document.getElementById('border-width-value').textContent = e.target.value;
+            });
+
+            document.getElementById('border-restart')?.addEventListener('click', () => {
+                initBorder();
+            });
+
+            document.getElementById('border-destroy')?.addEventListener('click', () => {
+                if (instances.border) {
+                    instances.border.destroy();
+                    instances.border = null;
+                }
+            });
+
+            // 星星组件控制
+            document.getElementById('star-x')?.addEventListener('input', (e) => {
+                document.getElementById('star-x-value').textContent = e.target.value;
+            });
+
+            document.getElementById('star-y')?.addEventListener('input', (e) => {
+                document.getElementById('star-y-value').textContent = e.target.value;
+            });
+
+            document.getElementById('star-update')?.addEventListener('click', () => {
+                if (instances.star) {
+                    const color = document.getElementById('star-color').value;
+                    const x = parseInt(document.getElementById('star-x').value);
+                    const y = parseInt(document.getElementById('star-y').value);
+                    instances.star.update({ color: color, position: { x: x, y: y } });
+                } else {
+                    initStar();
+                }
+            });
+
+            document.getElementById('star-destroy')?.addEventListener('click', () => {
+                if (instances.star) {
+                    instances.star.destroy();
+                    instances.star = null;
+                }
+            });
+
+            document.getElementById('star-color')?.addEventListener('change', () => {
+                if (instances.star) {
+                    const color = document.getElementById('star-color').value;
+                    const x = parseInt(document.getElementById('star-x').value);
+                    const y = parseInt(document.getElementById('star-y').value);
+                    instances.star.update({ color: color, position: { x: x, y: y } });
+                }
+            });
+
+            // 背景组件控制
+            document.getElementById('bg-duration')?.addEventListener('input', (e) => {
+                document.getElementById('bg-duration-value').textContent = e.target.value;
+                if (instances.background) {
+                    instances.background.update({ duration: parseInt(e.target.value) });
+                }
+            });
+
+            document.getElementById('bg-add')?.addEventListener('click', () => {
+                const url = document.getElementById('bg-url').value.trim();
+                if (url) {
+                    bgImages.push(url);
+                    document.getElementById('bg-url').value = '';
+                    initBackground();
+                }
+            });
+
+            document.getElementById('bg-clear')?.addEventListener('click', () => {
+                bgImages.length = 0;
+                if (instances.background) {
+                    instances.background.destroy();
+                    instances.background = null;
+                }
+                const container = document.getElementById('bg-preview');
+                container.style.backgroundImage = '';
+                const placeholder = container.querySelector('.bg-placeholder');
+                if (placeholder) {
+                    placeholder.style.display = 'block';
+                }
+            });
+
+            document.getElementById('bg-destroy')?.addEventListener('click', () => {
+                if (instances.background) {
+                    instances.background.destroy();
+                    instances.background = null;
+                }
+            });
+
+            // 呼吸效果控制
+            document.getElementById('breathing-speed')?.addEventListener('input', (e) => {
+                document.getElementById('breathing-speed-value').textContent = e.target.value;
+                if (instances.breathing) {
+                    instances.breathing.update({ speed: parseFloat(e.target.value) });
+                }
+            });
+
+            document.getElementById('breathing-direction')?.addEventListener('change', (e) => {
+                if (instances.breathing) {
+                    instances.breathing.update({ direction: e.target.value });
+                }
+            });
+
+            document.getElementById('breathing-scale')?.addEventListener('input', (e) => {
+                document.getElementById('breathing-scale-value').textContent = e.target.value;
+                if (instances.breathing) {
+                    instances.breathing.update({ scale: parseFloat(e.target.value) });
+                }
+            });
+
+            document.getElementById('breathing-toggle')?.addEventListener('click', () => {
+                if (instances.breathing) {
+                    if (instances.breathing._isRunning) {
+                        instances.breathing.pause();
+                    } else {
+                        instances.breathing.resume();
+                    }
+                }
+            });
+
+            document.getElementById('breathing-destroy')?.addEventListener('click', () => {
+                if (instances.breathing) {
+                    instances.breathing.destroy();
+                    instances.breathing = null;
+                }
+            });
+        }
+
+        // ========== 页面加载完成后初始化 ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            initSakura();
+            initBubble();
+            initBorder();
+            initStar();
+            initBreathing();
+            setupEventListeners();
+
+            console.log('[Animation Components] All components initialized');
+        });
+    </script>
+</body>
+</html>

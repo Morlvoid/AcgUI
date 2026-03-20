@@ -1,167 +1,147 @@
 # AcgUI - 二次元风格UI组件库
-<p> <img src="https://img.shields.io/badge/版本-0.1.0--alpha-blue" alt="版本"> <img src="https://img.shields.io/badge/状态-开发中-yellow" alt="状态"> <img src="https://img.shields.io/badge/许可证-MIT-green" alt="许可证"> <img src="https://img.shields.io/badge/二次元-友好!-ff69b4" alt="二次元友好"> </p>
+
+<p>
+    <img src="https://img.shields.io/badge/版本-2.0.0-blue" alt="版本">
+    <img src="https://img.shields.io/badge/状态-稳定-green" alt="状态">
+    <img src="https://img.shields.io/badge/许可证-MIT-green" alt="许可证">
+    <img src="https://img.shields.io/badge/二次元-友好!-ff69b4" alt="二次元友好">
+</p>
 
 ## 🌸 项目简介
+
 AcgUI（Anime CSS GUI）是一个专为二次元风格网站设计的轻量级UI组件库，致力于创建既美观又实用的动态组件，让开发者能够轻松构建充满动感的二次元风格界面。
 
-##  核心愿景
-🎨 为二次元而生：专注于二次元风格的UI组件和特效
+## ✨ 核心特性
 
-⚡ 轻量高性能：每个组件都经过优化，不影响页面性能
+- 🎨 **为二次元而生**：专注于二次元风格的UI组件和特效
+- ⚡ **轻量高性能**：每个组件都经过优化，不影响页面性能
+- 🔧 **高度可定制**：丰富的参数配置，满足各种个性化需求
+- 🌐 **开箱即用**：简单的API，几行代码就能实现炫酷效果
+- 🧩 **双模式支持**：支持JavaScript类方式和Web Components方式
 
-🔧 高度可定制：丰富的参数配置，满足各种个性化需求
+## 📦 组件列表
 
-🌐 开箱即用：简单的API，几行代码就能实现炫酷效果
+| 组件 | 描述 | 可配置参数 |
+|------|------|------------|
+| 🌸 Sakura（樱花飘落） | 模拟樱花飘落的粒子效果 | 密度、速度、颜色 |
+| 🫧 Bubble（气泡上升） | 模拟气泡上升的动画效果 | 密度、速度、颜色 |
+| 🖼️ Border（边框动画） | 动态边框绘制效果 | 速度、颜色、线宽 |
+| ⭐ Star（星星动画） | 闪烁的星星效果 | 颜色、位置、大小 |
+| 🖼️ Background（背景图片） | 背景图片切换效果 | 图片列表、切换时长 |
+| 💫 Breathing（呼吸效果） | 元素呼吸闪烁效果 | 速度、颜色 |
 
-##  🛠️ 技术栈
-核心技术
-- 技术	用途	学习难度	备注
-- Web Components	组件封装与复用	⭐⭐⭐	项目的核心，现代浏览器原生支持
-- HTML5 Canvas	复杂动画与特效	⭐⭐⭐⭐	用于高性能动画和粒子系统
-- CSS3 Animations	基础动画效果	⭐⭐	关键帧动画和过渡效果
-- JavaScript ES6+	组件逻辑与交互	⭐⭐⭐	现代JavaScript语法
-- SVG	矢量图形绘制	⭐⭐⭐	用于可缩放的二次元图形
+## 🚀 快速开始
 
-<br>
-构建工具<br>
+### 安装
 
-- 工具	用途	学习资源
-- Vite	快速开发与构建	Vite官方文档
-- Git	版本控制与协作	Git教程
-- GitHub Actions	自动化测试与部署	GitHub Actions文档
+```bash
+npm install acgui
+```
 
-<br>
-相关技术领域
+### 使用方式
 
-- 领域	说明	在项目中的应用
-- 动画原理	缓动函数、物理模拟	让动画更自然、有物理感
-- 性能优化	减少重绘、GPU加速	确保大量动画依然流畅
-- 响应式设计	适应不同屏幕尺寸	组件在各种设备上都能正常工作
-- 可访问性	支持辅助技术	让所有用户都能使用我们的组件
-<br>
+#### 方式一：JavaScript类方式
 
-##  🚀 学习路径建议
-如果你是前端新手
-<br>
-HTML/CSS基础 → JavaScript基础 → ES6+新特性<br>
+```javascript
+import { Sakura, Bubble, Border, Star, Background, Breathing } from 'acgui';
 
-DOM操作 → 事件处理 → 异步编程<br>
+// 樱花飘落效果
+const sakura = new Sakura({
+    container: document.getElementById('my-container'),
+    density: 30,
+    speed: 2,
+    color: '#ffb7c5'
+}).init();
 
-Web Components基础 → 自定义元素 → Shadow DOM<br>
-<br><br>
-推荐学习资源<br>
-MDN Web Docs：最全面的前端文档<br>
+// 气泡上升效果
+const bubble = new Bubble({
+    container: document.getElementById('my-container'),
+    density: 15,
+    speed: 1,
+    color: 'rgba(255, 255, 255, 0.6)'
+}).init();
 
-freeCodeCamp：免费互动式学习平台<br>
+// 销毁组件
+sakura.destroy();
+bubble.destroy();
+```
 
-JavaScript.info：现代JavaScript教程<br>
+#### 方式二：Web Components方式
 
-Web Components官方指南：Google开发者文档<br>
-<br>
+```html
+<!-- 直接在HTML中使用自定义标签 -->
+<acg-sakura count="30" speed="2" color="#ffb7c5"></acg-sakura>
+<acg-bubble count="15" speed="1" color="rgba(255, 255, 255, 0.6)"></acg-bubble>
+```
 
-##  🚀 当前进展
-已实现组件
-<br>
-✅ 樱花飘落效果 (Sakura Petals) - 第一个完成的组件！
-<br><br>
-正在开发中<br>
-🔄 立绘卡片组件 - 支持动态展示和交互的二次元角色卡片<br>
-🔄 翻页特效组件 - 仿漫画翻页效果的页面过渡<br>
-🔄 对话框组件 - 视觉小说风格的游戏对话框<br>
+### 开发
 
+```bash
+# 克隆仓库
+git clone git@github.com:Morlvoid/AcgUI.git
 
-##  👥 加入合作
-ACGUI是一个开源项目，我们热烈欢迎所有对二次元和Web开发感兴趣的朋友加入！
+# 安装依赖
+cd AcgUI
+npm install
 
-交流方式<br>
-GitHub Issues：技术讨论和问题报告<br>
+# 启动开发服务器
+npm run dev
 
-Discord服务器：[加入链接待创建]<br>
+# 构建生产版本
+npm run build
+```
 
-QQ群：[群号待公布]<br>
+## 🛠️ 技术栈
 
-##  📚 学习资源
-如果你是前端新手<br>
-先学习 MDN Web Components 教程<br>
+| 技术 | 用途 |
+|------|------|
+| Web Components | 组件封装与复用 |
+| HTML5 Canvas | 复杂动画与粒子系统 |
+| CSS3 Animations | 基础动画效果 |
+| JavaScript ES6+ | 组件逻辑与交互 |
+| Webpack | 项目构建与打包 |
+| Babel | JavaScript编译 |
 
-查看我们现有的樱花组件代码<br>
+## 📁 项目结构
 
-尝试修改参数，看看效果变化<br>
+```
+AcgUI/
+├── src/
+│   ├── components/
+│   │   ├── Sakura/          # 樱花飘落组件
+│   │   ├── Bubble/          # 气泡上升组件
+│   │   ├── Border/          # 边框动画组件
+│   │   ├── Star/            # 星星动画组件
+│   │   ├── Background/      # 背景图片组件
+│   │   └── Breathing/       # 呼吸效果组件
+│   ├── utils/               # 工具函数
+│   └── index.js             # 入口文件
+├── examples/                # 示例页面
+├── dist/                    # 构建输出
+├── index.html               # 组件展示页面
+├── package.json
+├── webpack.config.js
+└── babel.config.js
+```
 
-创建简单的修改版组件<br>
-<br>
-开发规范<br>
-使用ES6+语法<br>
+## 🤝 贡献指南
 
-组件命名采用 acg-组件名称 格式<br>
+欢迎所有对二次元和Web开发感兴趣的朋友参与贡献！
 
-每个组件必须包含完整的文档和示例<br>
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 提交 Pull Request
 
-代码要有清晰的注释<br>
-<br>
-🗺️ 项目路线图<br>
-第一阶段（当前）<br>
-✅ 樱花飘落组件 v1.0<br>
+## 📄 许可证
 
-🔄 完善组件文档<br>
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
 
-🔄 建立贡献者指南<br>
+## 🙏 致谢
 
-第二阶段<br>
-🔄 立绘卡片组件<br>
+感谢所有为 AcgUI 做出贡献的开发者！
 
-🔄 翻页特效组件<br>
+---
 
-🔄 基础构建工具<br>
-
-<br>
-📅 发布v1.0.0正式版<br>
-
-📅 支持NPM安装<br>
-
-📅 建立官方网站<br>
-<br>
-长期目标<br>
-🌟 20+个高质量二次元组件<br>
-
-🌟 主题系统（支持自定义主题）<br>
-
-🌟 可视化编辑器（在线配置组件）<br>
-
-🌟 与其他框架集成（Vue/React版本）<br>
-
-##  🏆 贡献者荣誉墙
-感谢所有为ACGUI做出贡献的人！你的名字将永远留在这个项目中。
-
-##  📄 许可证
-本项目采用 MIT 许可证 - 你可以自由地使用、修改和分发代码，只需保留原许可证声明。
-
-##  ❓ 常见问题
-Q: 我需要很厉害的前端技术才能参与吗？<br>
-A: 不需要！即使你只会基础的HTML/CSS/JavaScript，也可以参与组件开发、文档编写或测试工作。
-
-Q: 组件会影响网站性能吗？<br>
-A: 我们非常注重性能优化，每个组件都经过严格测试，确保不会对页面性能造成显著影响。
-
-Q: 我可以商用吗？<br>
-A: 可以！MIT许可证允许商用，但请注意保留原许可证声明。
-
-Q: 如何获取帮助？<br>
-A: 可以在GitHub Issues中提问，或者加入我们的交流群。
-
-##  ✨ 让我们一起创造
-ACGUI不仅仅是一个UI库，我们想建立的是一个二次元开发者的社区。无论你是：
-
-想为爱发电的二次元爱好者
-
-正在学习前端的学生
-
-寻找开源项目练手的开发者
-
-想展示自己设计的画师
-
-这里都有你的位置！
-
-每一个Pull Request都是对项目的巨大帮助，哪怕只是修正了一个错别字。
-
-让我们一起打造属于二次元开发者自己的工具库！🌸
+**让我们一起打造属于二次元开发者自己的工具库！** 🌸
